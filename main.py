@@ -1,4 +1,5 @@
 import random
+import time
 
 questions = [
     "What is the capital of France? (1) Paris (2) Lyon (3) Marseille (4) Nice",
@@ -25,29 +26,61 @@ questions = [
 
 answers = [1, 3, 3, 2, 2, 4, 3, 4, 2, 3, 3, 2, 3, 2, 3, 4, 4, 3, 4, 2]
 
-def get_random_question(questions_list):
-    """Returns a random index question from the list."""
-    return random.randint(0, len(questions_list) - 1)
 
-def display_questions(questions_list,index):
-    """Prints a random question at the given index."""
-    print("\n"+ questions_list[index])
-
+def get_random_question():
+    return random.randint(0,len(questions)-1)
+def display_question(index):
+    print("\n "+ questions[index])
 def get_user_choice():
-    """Get input from the user (1-4),with validation."""
     while True:
-        choice =input("Enter your choice(1-4): ")
-        if choice in ['1','2','3','4']:
+        choice = input("\nWhat do you choose?(1-4): ")
+        if choice.isdigit() and 1 <= int(choice) <= 4:
             return int(choice)
-        else:
-            print("invalid input!Enter your choice(1-4): ")
-
-def user_answer_is_correct(index,user_choice,answers_list):
-    """Returns True if the user answer is correct,False otherwise."""
-    return user_choice == answers_list[index]
-
+        print("invalid input! please enter a number between 1-4")
+def user_answer_is_correct(index,user_choice):
+    return answers[index] == user_choice
 def check_if_score_is_5(score):
-    """Checks if the score is 5."""
-    return score==5
+    return score == 5
+def check_if_miss_is_3(miss):
+    return miss == 3
+def get_correct_answer_text(index):
+    parts=questions[index].split("(")
+    correct_part=parts[answers[index]]
+    return correct_part.split(")")[1].strip()
+
+score=0
+miss=0
+
+while True:
+    question_index = get_random_question()
+    display_question(question_index)
+
+    user_choice = get_user_choice()
+
+    if user_answer_is_correct(question_index,user_choice):
+        score += 1
+        time.sleep(5)
+        print("You got it right!")
+    else:
+        miss += 1
+        time.sleep(5)
+        correct=get_correct_answer_text(question_index)
+        print(f"You got it wrong!,correct answer is:{correct}")
+
+    questions.pop(question_index)
+    answers.pop(question_index)
+
+    time.sleep(5)
+    if check_if_score_is_5(score):
+       print("\n WINNER!!!!!")
+       break
+
+
+    time.sleep(5)
+    if check_if_miss_is_3(miss):
+       print("\n You lost!!!!!")
+       break
+
+
 
 
