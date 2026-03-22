@@ -29,20 +29,26 @@ answers = [1, 3, 3, 2, 2, 4, 3, 4, 2, 3, 3, 2, 3, 2, 3, 4, 4, 3, 4, 2]
 
 def get_random_question():
     return random.randint(0,len(questions)-1)
+
 def display_question(index):
     print("\n "+ questions[index])
+
 def get_user_choice():
     while True:
         choice = input("\nWhat do you choose?(1-4): ")
         if choice.isdigit() and 1 <= int(choice) <= 4:
             return int(choice)
         print("invalid input! please enter a number between 1-4")
+
 def user_answer_is_correct(index,user_choice):
     return answers[index] == user_choice
+
 def check_if_score_is_5(score):
     return score == 5
+
 def check_if_miss_is_3(miss):
     return miss == 3
+
 def get_correct_answer_text(index):
     parts=questions[index].split("(")
     correct_part=parts[answers[index]]
